@@ -11,6 +11,7 @@ function(input, output, session) {
       Column = character(),
       Value = character(),
       Note = character(),
+      Suggested_Value = character(),
       Timestamp = character(),
       stringsAsFactors = FALSE
     )
@@ -50,8 +51,14 @@ function(input, output, session) {
       showModal(modalDialog(
         title = "Add Validation Note",
         tags$p(strong("Cell:"), glue("Row {row}, Column {col_name}")),
-        tags$p(strong("Value:"), as.character(value)),
-        textAreaInput("note_input", "Validation Note:", width = "100%", rows = 4),
+        tags$p(strong("Current Value:"), as.character(value)),
+        textInput("suggested_value", "Suggested Correction:", 
+                  width = "100%", 
+                  placeholder = "Enter corrected value (optional)"),
+        textAreaInput("note_input", "Validation Note:", 
+                      width = "100%", 
+                      rows = 4,
+                      placeholder = "Describe the issue or validation check"),
         footer = tagList(
           modalButton("Cancel"),
           actionButton("save_note", "Save Note", class = "btn-primary")
@@ -72,6 +79,9 @@ function(input, output, session) {
       Column = rv$current_cell$col,
       Value = rv$current_cell$value,
       Note = input$note_input,
+      Suggested_Value = ifelse(is.null(input$suggested_value) || input$suggested_value == "", 
+                               "", 
+                               input$suggested_value),
       Timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
       stringsAsFactors = FALSE
     )
@@ -92,15 +102,6 @@ function(input, output, session) {
         rownames = FALSE
       )
     }
-  })
-  
-  # Validation summary
-  output$validation_summary <- renderText({
-    paste(
-      "Total cells checked:", nrow(rv$notes), "\n",
-      "Unique rows flagged:", length(unique(rv$notes$Row)), "\n",
-      "Unique columns flagged:", length(unique(rv$notes$Column))
-    )
   })
   
   # Download notes

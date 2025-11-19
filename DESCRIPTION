@@ -1,0 +1,18 @@
+Package: soundcheck
+Title: Data Validation Shiny Application
+Version: 0.0.0.9000
+Authors@R: 
+    person("Your", "Name", , "your.email@example.com", role = c("aut", "cre"))
+Description: An interactive Shiny application for data validation that
+    allows users to upload data, view it in an interactive table, and add
+    validation notes with suggested corrections to specific cells.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Language: en-GB
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports: 
+    bslib,
+    DT,
+    glue,
+    shiny

@@ -1,0 +1,37 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# soundcheck
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of soundcheck is to provide an interface into simple data quality checking 
+
+## Installation
+
+You can install the development version of soundcheck from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("njtierney/soundcheck")
+```
+
+## Example
+
+```{r example, eval = FALSE}
+library(soundcheck)
+run_app()
+```
