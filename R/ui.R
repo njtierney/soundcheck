@@ -4,7 +4,8 @@ ui <- function() {
   bslib::page_sidebar(
     title = "Data Validation Tool",
     shiny::tags$head(
-      shiny::tags$style(shiny::HTML("
+      shiny::tags$style(shiny::HTML(
+        "
         /* Hover effect for table cells - light green */
         #data_table table.dataTable tbody td:hover {
           background-color: #90EE90 !important;
@@ -23,11 +24,11 @@ ui <- function() {
         #data_table table.dataTable td:last-child {
           border-right: none;
         }
-      "))
+      "
+      ))
     ),
     sidebar = bslib::sidebar(
-      shiny::fileInput("file", "Upload CSV File",
-                       accept = c(".csv", ".xlsx")),
+      shiny::fileInput("file", "Upload CSV File", accept = c(".csv", ".xlsx")),
       shiny::checkboxInput("use_example", "Use Example Dataset", FALSE),
       shiny::hr(),
       shiny::downloadButton("download_notes", "Download Validation Notes")

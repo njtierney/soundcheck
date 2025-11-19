@@ -16,7 +16,10 @@ server_code <- server_code[!grepl("^#'", server_code)]
 
 # Find where the actual function definitions start
 ui_start <- which(grepl("^ui <- function\\(\\)", ui_code))[1]
-server_start <- which(grepl("^server <- function\\(input, output, session\\)", server_code))[1]
+server_start <- which(grepl(
+  "^server <- function\\(input, output, session\\)",
+  server_code
+))[1]
 
 # Extract just the function definitions
 ui_func <- ui_code[ui_start:length(ui_code)]

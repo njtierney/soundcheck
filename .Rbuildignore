@@ -1,3 +1,5 @@
 ^README\.Rmd$
 build_app.R
 app
+^.*\.Rproj$
+^\.Rproj\.user$

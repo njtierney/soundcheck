@@ -48,15 +48,24 @@ server <- function(input, output, session) {
 
       shiny::showModal(shiny::modalDialog(
         title = "Add Validation Note",
-        shiny::tags$p(shiny::strong("Cell:"), glue::glue("Row {row}, Column {col_name}")),
+        shiny::tags$p(
+          shiny::strong("Cell:"),
+          glue::glue("Row {row}, Column {col_name}")
+        ),
         shiny::tags$p(shiny::strong("Current Value:"), as.character(value)),
-        shiny::textInput("suggested_value", "Suggested Correction:",
-                         width = "100%",
-                         placeholder = "Enter corrected value (optional)"),
-        shiny::textAreaInput("note_input", "Validation Note:",
-                             width = "100%",
-                             rows = 4,
-                             placeholder = "Describe the issue or validation check"),
+        shiny::textInput(
+          "suggested_value",
+          "Suggested Correction:",
+          width = "100%",
+          placeholder = "Enter corrected value (optional)"
+        ),
+        shiny::textAreaInput(
+          "note_input",
+          "Validation Note:",
+          width = "100%",
+          rows = 4,
+          placeholder = "Describe the issue or validation check"
+        ),
         footer = shiny::tagList(
           shiny::modalButton("Cancel"),
           shiny::actionButton("save_note", "Save Note", class = "btn-primary")
@@ -64,7 +73,11 @@ server <- function(input, output, session) {
       ))
 
       # Store current cell info
-      rv$current_cell <- list(row = row, col = col_name, value = as.character(value))
+      rv$current_cell <- list(
+        row = row,
+        col = col_name,
+        value = as.character(value)
+      )
     }
   })
 
@@ -77,9 +90,11 @@ server <- function(input, output, session) {
       Column = rv$current_cell$col,
       Value = rv$current_cell$value,
       Note = input$note_input,
-      Suggested_Value = ifelse(is.null(input$suggested_value) || input$suggested_value == "",
-                                "",
-                                input$suggested_value),
+      Suggested_Value = ifelse(
+        is.null(input$suggested_value) || input$suggested_value == "",
+        "",
+        input$suggested_value
+      ),
       Timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
       stringsAsFactors = FALSE
     )
@@ -92,7 +107,9 @@ server <- function(input, output, session) {
   # Render notes table
   output$notes_table <- DT::renderDT({
     if (nrow(rv$notes) == 0) {
-      data.frame(Message = "No validation notes yet. Click on a cell to add a note.")
+      data.frame(
+        Message = "No validation notes yet. Click on a cell to add a note."
+      )
     } else {
       DT::datatable(
         rv$notes,
@@ -105,9 +122,14 @@ server <- function(input, output, session) {
   # Validation summary
   output$validation_summary <- shiny::renderText({
     paste(
-      "Total cells checked:", nrow(rv$notes), "\n",
-      "Unique rows flagged:", length(unique(rv$notes$Row)), "\n",
-      "Unique columns flagged:", length(unique(rv$notes$Column))
+      "Total cells checked:",
+      nrow(rv$notes),
+      "\n",
+      "Unique rows flagged:",
+      length(unique(rv$notes$Row)),
+      "\n",
+      "Unique columns flagged:",
+      length(unique(rv$notes$Column))
     )
   })
 
