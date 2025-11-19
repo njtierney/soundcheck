@@ -14,6 +14,66 @@ server <- function(input, output, session) {
       stringsAsFactors = FALSE
     )
   )
+  
+  # Show welcome modal on load
+  shiny::observe({
+    shiny::showModal(shiny::modalDialog(
+      title = shiny::div(
+        " Welcome to Soundcheck!"
+      ),
+      shiny::tags$p(
+        "A lightweight app to help you perform quality control on your data."
+      ),
+      shiny::tags$h5("How to use:"),
+      shiny::tags$ol(
+        shiny::tags$li("Upload your CSV file or use the example dataset"),
+        shiny::tags$li("Browse through your data in the table"),
+        shiny::tags$li(shiny::strong("Click on any cell"), " to add a validation note"),
+        shiny::tags$li("Describe any changes or questions you have about that cell"),
+        shiny::tags$li("Optionally suggest a corrected value"),
+        shiny::tags$li("Download your validation notes when complete")
+      ),
+      shiny::tags$p(
+        shiny::tags$em(
+          "Tip: Hover over cells to see them highlight in green. ",
+          "Click the ", shiny::icon("circle-question"), " button in the top right to view this help again."
+        )
+      ),
+      size = "m",
+      easyClose = TRUE,
+      footer = shiny::modalButton("Got it!")
+    ))
+  }) |> 
+    shiny::bindEvent(session$clientData, once = TRUE)
+  
+  # Show help modal when help button is clicked
+  shiny::observeEvent(input$show_help, {
+    shiny::showModal(shiny::modalDialog(
+      title = shiny::div(
+        shiny::icon("circle-question", style = "color: #90EE90; font-size: 1.5em;"),
+        " How to Use Soundcheck"
+      ),
+      shiny::tags$h5("Getting Started:"),
+      shiny::tags$ol(
+        shiny::tags$li("Upload your CSV file or use the example dataset"),
+        shiny::tags$li("Browse through your data in the table"),
+        shiny::tags$li(shiny::strong("Click on any cell"), " to add a validation note"),
+        shiny::tags$li("Describe any changes or questions you have about that cell"),
+        shiny::tags$li("Optionally suggest a corrected value"),
+        shiny::tags$li("Download your validation notes when complete")
+      ),
+      shiny::tags$h5("Features:"),
+      shiny::tags$ul(
+        shiny::tags$li("Hover over cells to see them highlight in green"),
+        shiny::tags$li("Track which cells have been reviewed"),
+        shiny::tags$li("View validation summary statistics"),
+        shiny::tags$li("Export all notes as a timestamped CSV file")
+      ),
+      size = "m",
+      easyClose = TRUE,
+      footer = shiny::modalButton("Close")
+    ))
+  })
 
   # Load data
   shiny::observe({
@@ -117,20 +177,6 @@ server <- function(input, output, session) {
         rownames = FALSE
       )
     }
-  })
-
-  # Validation summary
-  output$validation_summary <- shiny::renderText({
-    paste(
-      "Total cells checked:",
-      nrow(rv$notes),
-      "\n",
-      "Unique rows flagged:",
-      length(unique(rv$notes$Row)),
-      "\n",
-      "Unique columns flagged:",
-      length(unique(rv$notes$Column))
-    )
   })
 
   # Download notes

@@ -11,6 +11,7 @@ This is a shiny app that facilitates data validation it allows the user to uploa
 General advice:
 * When running R from the console, always run it with `--quiet --vanilla`
 * Always run `air format .` after generating code
+* Always make changes to R code for ui.R and server.R in R/ui.R and R/server.R
 
 ### Testing
 
